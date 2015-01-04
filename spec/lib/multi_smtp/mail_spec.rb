@@ -39,13 +39,25 @@ describe MultiSMTP::Mail, "#deliver!" do
   end
 
   context "all smtp providers fail" do
-    it "notifies airbrake" do
-      allow_any_instance_of(Net::SMTP).to receive(:start).
-        and_raise(Net::SMTPFatalError)
+    context "notifier is set" do
+      it "notifies airbrake" do
+        allow_any_instance_of(Net::SMTP).to receive(:start).
+          and_raise(Net::SMTPFatalError)
 
-      MultiSMTP::Mail.new({}).deliver!(mail)
+        MultiSMTP::Mail.new({}).deliver!(mail)
 
-      expect(error_notifier).to have_received(:notify).once
+        expect(error_notifier).to have_received(:notify).once
+      end
+    end
+
+    context "notifier is not set" do
+      it "re-raises the original exception" do
+        MultiSMTP.error_notifier = nil
+        allow_any_instance_of(Net::SMTP).to receive(:start).
+          and_raise(Net::SMTPFatalError)
+
+        expect { MultiSMTP::Mail.new({}).deliver!(mail) }.to raise_exception
+      end
     end
   end
 

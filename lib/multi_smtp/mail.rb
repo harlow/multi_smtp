@@ -14,8 +14,12 @@ module MultiSMTP
           super(mail)
           break
         rescue Exception => e
-          if all_providers_failed?(index) && error_notifier
+          next unless all_providers_failed?(index)
+
+          if error_notifier
             error_notifier.notify(mail)
+          else
+            raise e
           end
         end
       end
