@@ -51,11 +51,9 @@ other_smtp_settings = {
 MultiSMTP.smtp_providers = [sendgrid_settings, other_smtp_settings]
 ```
 
-## Error Handling
+## Error Notifications
 
-If all SMTP providers fail to deliver the email the default behavior is to re-raise
-the exception thrown from the provider.
-
+If all SMTP providers fail the default behavior is to re-raise the original exception.
 However, we can also specify custom notifications.
 
 ```ruby
@@ -65,8 +63,8 @@ require "multi_smtp/notifiers/airbrake"
 MultiSMTP.error_notifier = MultiSMTP::Notifiers::Airbrake
 ```
 
-If you have another type of notification you'd like to receive, you can create a
-new notifier. The implementation must contain the class method `.notify`.
+If there is another type of notification you'd like to receive, you can create a
+new notifier that implements the class method `.notify`.
 
 ```ruby
 class MyCustomNotifier
@@ -74,6 +72,8 @@ class MyCustomNotifier
     # do something special
   end
 end
+
+MultiSMTP.error_notifier = MyCustomNotifier
 ```
 
 See the [Airbrake Notifier][1] for more details.
