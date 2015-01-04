@@ -51,6 +51,33 @@ other_smtp_settings = {
 MultiSMTP.smtp_providers = [sendgrid_settings, other_smtp_settings]
 ```
 
+## Error Handling
+
+If all SMTP providers fail to deliver the email the default behavior is to re-raise
+the exception thrown from the provider.
+
+However, we can also specify custom notifications.
+
+```ruby
+# config/initializers/multi_smtp.rb
+require "multi_smtp/notifiers/airbrake"
+
+MultiSMTP.error_notifier = MultiSMTP::Notifiers::Airbrake
+```
+
+If you have another type of notification you'd like to receive, you can create a
+new notifier. The implementation must contain the class method `.notify`.
+
+```ruby
+class MyCustomNotifier
+  def self.notify(mail)
+    # do something special
+  end
+end
+```
+
+See the [Airbrake Notifier][1] for more details.
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/multi_smtp/fork )
@@ -58,3 +85,5 @@ MultiSMTP.smtp_providers = [sendgrid_settings, other_smtp_settings]
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+[1]: https://github.com/harlow/multi_smtp/blob/master/lib/multi_smtp/notifiers/airbrake.rb
