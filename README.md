@@ -1,10 +1,9 @@
 # MultiSMTP
 
-Email delivery is a critical component of many web applications. Often
-third-party Email services can experience temporary downtime.
+Email delivery is a critical component of many web applications. Occasionally
+distributed third-party services can experience temporary downtime. We can achieve automatic failover by overriding the default email delivery method with MultiSMTP.
 
-We can achieve automatic failover by overriding the default delivery method with the
-MultiSMTP class.
+MultiSMTP takes an array of (1..N) SMTP providers and will itterate over each provider untill the email is successfully sent.
 
 ## Installation
 
@@ -38,7 +37,7 @@ Providers.
 sendgrid_settings = {
   address: 'smtp.sendgrid.net',
   authentication: :plain,
-  domain: 'hoteltonight.com',
+  domain: 'example.com',
   password: ENV['SENDGRID_PASSWORD'],
   port: '587',
   user_name: ENV['SENDGRID_USERNAME'],
