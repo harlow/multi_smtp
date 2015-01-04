@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = MultiSMTP::VERSION
   spec.authors       = ["Harlow Ward"]
   spec.email         = ["harlow@hward.com"]
-  spec.summary       = %q{Email failover in Rails with MultiSMTP}
-  spec.description   = %q{Email failover in Rails with MultiSMTP}
+  spec.summary       = %q{Automatic SMTP email failover in Rails with MultiSMTP}
+  spec.description   = %q{Automatci SMTP email failover in Rails with MultiSMTP}
   spec.homepage      = "https://github.com/harlow/multi_smtp"
   spec.license       = "MIT"
 
